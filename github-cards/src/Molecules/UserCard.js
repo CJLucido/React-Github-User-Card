@@ -37,19 +37,19 @@ const useStyles = makeStyles({
     const classes = useStyles();
    
 
-console.log(props.percentageChange24HrUsd)
+console.log("this is props.name", props.name)
     return(
         <Card display="flexbox" className={classes.card}>
       <CardActionArea>
         <CardContent>
         <Typography gutterBottom variant="h5" component="h2" alt="ticker symbol">
-        {props.symbol}
+        {props.name}
       </Typography>
           <Typography gutterBottom variant="h5" component="h2" alt="displaying the current price in US dollars">
-          {props.priceUsd ? '$' + props.priceUsd.toFixed(2): null}
+          {null}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.percentageChange24HrUsd ? props.percentageChange24HrUsd > 0 ? '+' + props.percentageChange24HrUsd.toFixed(2) + '%' : props.percentageChange24HrUsd.toFixed(2) + '%' : null}
+            {null}
           </Typography>
         </CardContent>
       </CardActionArea>

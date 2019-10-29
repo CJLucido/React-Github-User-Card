@@ -44,6 +44,9 @@ class UserList extends Component {
     axios.get(`https://api.github.com/users/CJLucido`)
     .then(res => {
       console.log("this is from UserList", res);
+      this.setState({
+          displayInfo: res.data
+      })
     })
     .catch(err => {
       console.log("Did not receive data from API call", err)
@@ -55,18 +58,15 @@ render(){
 
     let  {classes } = this.props;
 console.log(classes) 
-
+console.log("this is displayInfo.name", this.state.displayInfo.name)
     return(
         <div className={classes.root}>
        
             <GridList className={classes.gridList} cols={3}>
             {
-            
-            
-              this.state.displayInfo.map(  (display, index) =>
-              (
-               <UserCard key={index} name={display.name}/>)
-              )
+              
+               <UserCard key={this.state.displayInfo.name} name={this.state.displayInfo.name}/>
+              
             
              }
             
@@ -81,3 +81,6 @@ export default withStyles(style)(UserList)
 
 
 
+//this.state.displayInfo.map(  (display, index) =>
+// (
+//     ) map wont work because.....it's not an array!

@@ -1,7 +1,8 @@
-import React, {useState, useEffect, Fragment, Component} from 'react';
+import React, {  Component} from 'react';
 import axios from 'axios'
 
 
+import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 
@@ -13,7 +14,7 @@ import UserCard from "../Molecules/UserCard";
 
 //////////////////////////////////Material UI//////////////////////////
 
-const useStyles = makeStyles(theme => ({
+const style = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -29,22 +30,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+
 ////////////////////////Exported Component//////////////////
 
-function UserList(props){
-    const [displayInfo, setDisplayInfo] = useState([])
-
-    const classes = useStyles();
-
-
+class UserList extends Component {
+    state ={
+        displayInfo: []
+    }
 
 
 
-
-
-
-
-  useEffect(() => {
+  componentDidMount(){
     axios.get(`https://api.github.com/users/CJLucido`)
     .then(res => {
       console.log("this is from UserList", res);
@@ -52,9 +48,13 @@ function UserList(props){
     .catch(err => {
       console.log("Did not receive data from API call", err)
     })
-  }, [])
+  }
 
 
+render(){
+
+    let  {classes } = this.props;
+console.log(classes) 
 
     return(
         <div className={classes.root}>
@@ -63,9 +63,9 @@ function UserList(props){
             {
             
             
-              displayInfo.map(  (display, index) =>
+              this.state.displayInfo.map(  (display, index) =>
               (
-               <UserCard key={index} />)
+               <UserCard key={index} name={display.name}/>)
               )
             
              }
@@ -74,10 +74,10 @@ function UserList(props){
 
 
         </div>
-    )
+    )}
 }
 
-export default UserList
+export default withStyles(style)(UserList)
 
 
 

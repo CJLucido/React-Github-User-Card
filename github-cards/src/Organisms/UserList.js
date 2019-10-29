@@ -20,12 +20,12 @@ const style = makeStyles(theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "yellow",
   },
   gridList: {
     width: 500,
     height: 450,
-    transform: 'translateZ(0)'
+    // transform: 'translateZ(0)'
   },
 }));
 
@@ -35,7 +35,8 @@ const style = makeStyles(theme => ({
 
 class UserList extends Component {
     state ={
-        displayInfo: []
+        displayInfo: [],
+        followersDisplayInfo: []
     }
 
 
@@ -45,12 +46,20 @@ class UserList extends Component {
     .then(res => {
       console.log("this is from UserList", res);
       this.setState({
-          displayInfo: res.data
+          displayInfo: res.data,
+          
       })
     })
     .catch(err => {
       console.log("Did not receive data from API call", err)
     })
+
+    axios.get(`https://api.github.com/users/CJLucido/followers`)
+    .then(res =>
+      {
+          console.log("this is followers", res.data)
+          this.setState({followersDisplayInfo: res.data})
+      })
   }
 
 
@@ -60,16 +69,29 @@ render(){
 console.log(classes) 
 console.log("this is displayInfo.name", this.state.displayInfo.name)
     return(
+        
         <div className={classes.root}>
        
-            <GridList className={classes.gridList} cols={3}>
+        <GridList className={classes.gridList} cols={3}>
+            <h1>Github User</h1>
             {
-              
-               <UserCard key={this.state.displayInfo.name} name={this.state.displayInfo.name}/>
-              
-            
+               <UserCard 
+               key={this.state.displayInfo.name}
+                name={this.state.displayInfo.name}
+                type={this.state.displayInfo.type}
+                 repos={this.state.displayInfo.public_repos}
+                 url={this.state.displayInfo.url}
+                 avatar={this.state.displayInfo.avatar_url}
+                 />
              }
-            
+             <h1>User's Followers</h1>
+               {this.state.followersDisplayInfo.map(item => 
+            <UserCard 
+                key={item.login}
+                name={item.login}
+                url={item.url}
+                avatar={item.avatar_url} />
+               )}
              </GridList>
 
 
@@ -79,8 +101,15 @@ console.log("this is displayInfo.name", this.state.displayInfo.name)
 
 export default withStyles(style)(UserList)
 
+// export default withStyles(style)(UserList)
 
+//<div className={classes.root}>
+//<GridList className={classes.gridList} cols={3}>
 
 //this.state.displayInfo.map(  (display, index) =>
 // (
 //     ) map wont work because.....it's not an array!
+
+// console.log("this is from Followers URL", res.data[0].login);
+
+//console.log("this is the item you are looking for", item)
